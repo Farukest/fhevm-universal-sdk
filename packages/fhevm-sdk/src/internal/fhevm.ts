@@ -242,12 +242,13 @@ export const createFhevmInstance = async (parameters: {
       notify("creating");
 
       //////////////////////////////////////////////////////////////////////////
-      // 
+      //
       // WARNING!!
-      // ALWAY USE DYNAMIC IMPORT TO AVOID INCLUDING THE ENTIRE FHEVM MOCK LIB 
+      // ALWAY USE DYNAMIC IMPORT TO AVOID INCLUDING THE ENTIRE FHEVM MOCK LIB
       // IN THE FINAL PRODUCTION BUNDLE!!
-      // 
+      //
       //////////////////////////////////////////////////////////////////////////
+      // @ts-ignore - Dynamic import for mock mode only, not included in production build
       const fhevmMock = await import("./mock/fhevmMock");
       const mockInstance = await fhevmMock.fhevmMockCreateInstance({
         rpcUrl,
