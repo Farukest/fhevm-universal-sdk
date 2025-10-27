@@ -62,6 +62,15 @@
     "vue": "^3.0.0"
   },
   "peerDependenciesMeta": {
+    "@fhevm/mock-utils": {
+      "optional": true
+    },
+    "@zama-fhe/relayer-sdk": {
+      "optional": true
+    },
+    "ethers": {
+      "optional": true
+    },
     "react": {
       "optional": true
     },
@@ -70,6 +79,7 @@
     }
   },
   "devDependencies": {
+    "@fhevm/mock-utils": "^0.1.0",
     "@types/node": "~18.19.50",
     "@types/react": "~19.0.7",
     "@vitest/coverage-v8": "2.1.9",
