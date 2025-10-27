@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDeployedContractInfo } from "../helper";
 import { useWagmiEthers } from "../wagmi/useWagmiEthers";
-import { FhevmInstance } from "@fhevm-sdk";
+import { FhevmInstance } from "fhevm-sdk";
 import {
   buildParamsFromAbi,
   getEncryptionMethod,
   useFHEDecrypt,
   useFHEEncryption,
   useInMemoryStorage,
-} from "@fhevm-sdk";
+} from "fhevm-sdk";
 import { ethers } from "ethers";
 import type { Contract } from "~~/utils/helper/contract";
 import type { AllowedChainIds } from "~~/utils/helper/networks";
@@ -106,10 +106,19 @@ export const useFHECounterWagmi = (parameters: {
     results,
   } = useFHEDecrypt({
     instance,
-    ethersSigner: ethersSigner as any,
-    fhevmDecryptionSignatureStorage,
+    signer: ethersSigner as any,
+    signatureStorage: fhevmDecryptionSignatureStorage,
     chainId,
     requests,
+  });
+
+  // DEBUG: Log decrypt conditions
+  console.log('[useFHECounterWagmi] Decrypt conditions:', {
+    instance: !!instance,
+    ethersSigner: !!ethersSigner,
+    requests: requests?.length,
+    canDecrypt,
+    countHandle,
   });
 
   useEffect(() => {
@@ -170,7 +179,23 @@ export const useFHECounterWagmi = (parameters: {
         setMessage(`${op}(${valueAbs}) completed!`);
         refreshCountHandle();
       } catch (e) {
-        setMessage(`${op} failed: ${e instanceof Error ? e.message : String(e)}`);
+        // Parse error for user-friendly message
+        let errorMsg = "Unknown error";
+        if (e instanceof Error) {
+          const msg = e.message.toLowerCase();
+          if (msg.includes("user rejected") || msg.includes("user denied") || msg.includes("rejected")) {
+            errorMsg = "Transaction cancelled by user";
+          } else if (msg.includes("insufficient funds")) {
+            errorMsg = "Insufficient funds for transaction";
+          } else if (msg.includes("gas")) {
+            errorMsg = "Transaction failed: Gas estimation error";
+          } else {
+            // Extract readable part before technical details
+            const match = e.message.match(/^([^(]+)/);
+            errorMsg = match ? match[1].trim() : e.message;
+          }
+        }
+        setMessage(`${op} failed: ${errorMsg}`);
       } finally {
         setIsProcessing(false);
       }

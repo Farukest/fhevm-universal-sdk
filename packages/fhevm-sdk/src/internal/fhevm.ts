@@ -27,21 +27,21 @@ function throwFhevmError(
 }
 
 const isFhevmInitialized = (): boolean => {
-  if (!isFhevmWindowType(window, console.log)) {
+  if (!isFhevmWindowType(window)) {
     return false;
   }
   return window.relayerSDK.__initialized__ === true;
 };
 
 const fhevmLoadSDK: FhevmLoadSDKType = () => {
-  const loader = new RelayerSDKLoader({ trace: console.log });
+  const loader = new RelayerSDKLoader();
   return loader.load();
 };
 
 const fhevmInitSDK: FhevmInitSDKType = async (
   options?: FhevmInitSDKOptions
 ) => {
-  if (!isFhevmWindowType(window, console.log)) {
+  if (!isFhevmWindowType(window)) {
     throw new Error("window.relayerSDK is not available");
   }
   const result = await window.relayerSDK.initSDK(options);
@@ -180,10 +180,11 @@ type ResolveResult = MockResolveResult | GenericResolveResult;
 
 async function resolve(
   providerOrUrl: Eip1193Provider | string,
-  mockChains?: Record<number, string>
+  mockChains?: Record<number, string>,
+  explicitChainId?: number
 ): Promise<ResolveResult> {
-  // Resolve chainId
-  const chainId = await getChainId(providerOrUrl);
+  // Resolve chainId - use explicit chainId if provided to avoid MetaMask cache issues
+  const chainId = explicitChainId ?? (await getChainId(providerOrUrl));
 
   // Resolve rpc url
   let rpcUrl = typeof providerOrUrl === "string" ? providerOrUrl : undefined;
@@ -210,6 +211,7 @@ export const createFhevmInstance = async (parameters: {
   mockChains?: Record<number, string>;
   signal: AbortSignal;
   onStatusChange?: (status: FhevmRelayerStatusType) => void;
+  chainId?: number;
 }): Promise<FhevmInstance> => {
   const throwIfAborted = () => {
     if (signal.aborted) throw new FhevmAbortError();
@@ -224,10 +226,11 @@ export const createFhevmInstance = async (parameters: {
     onStatusChange,
     provider: providerOrUrl,
     mockChains,
+    chainId: explicitChainId,
   } = parameters;
 
   // Resolve chainId
-  const { isMock, rpcUrl, chainId } = await resolve(providerOrUrl, mockChains);
+  const { isMock, rpcUrl, chainId } = await resolve(providerOrUrl, mockChains, explicitChainId);
 
   if (isMock) {
     // Throws an error if cannot connect or url does not refer to a Web3 client
@@ -260,7 +263,7 @@ export const createFhevmInstance = async (parameters: {
 
   throwIfAborted();
 
-  if (!isFhevmWindowType(window, console.log)) {
+  if (!isFhevmWindowType(window)) {
     notify("sdk-loading");
 
     // throws an error if failed

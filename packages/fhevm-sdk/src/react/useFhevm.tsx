@@ -35,7 +35,28 @@ export function useFhevm(parameters: {
   const _chainIdRef = useRef<number | undefined>(chainId);
   const _mockChainsRef = useRef<Record<number, string> | undefined>(initialMockChains as any);
 
+  // Update refs when props change
+  _providerRef.current = provider;
+  _chainIdRef.current = chainId;
+  _mockChainsRef.current = initialMockChains as any;
+
   const refresh = useCallback(() => {
+    if (_abortControllerRef.current) {
+      _abortControllerRef.current.abort();
+      _abortControllerRef.current = null;
+    }
+
+    _setInstance(undefined);
+    _setError(undefined);
+    _setStatus("idle");
+
+    if (provider !== undefined) {
+      _setProviderChanged(prev => prev + 1);
+    }
+  }, [provider, chainId]);
+
+  // Only run on provider/chainId change, not on refresh function change
+  useEffect(() => {
     if (_abortControllerRef.current) {
       _providerRef.current = undefined;
       _chainIdRef.current = undefined;
@@ -55,10 +76,6 @@ export function useFhevm(parameters: {
       _setProviderChanged(prev => prev + 1);
     }
   }, [provider, chainId]);
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
 
   useEffect(() => {
     _setIsRunning(enabled);
@@ -96,12 +113,13 @@ export function useFhevm(parameters: {
       const thisSignal = _abortControllerRef.current.signal;
       const thisProvider = _providerRef.current;
       const thisRpcUrlsByChainId = _mockChainsRef.current as any;
+      const thisChainId = _chainIdRef.current;
 
       createFhevmInstance({
         signal: thisSignal,
         provider: thisProvider as any,
         mockChains: thisRpcUrlsByChainId as any,
-        onStatusChange: s => console.log(`[useFhevm] createFhevmInstance status changed: ${s}`),
+        chainId: thisChainId,
       })
         .then(i => {
           if (thisSignal.aborted) return;

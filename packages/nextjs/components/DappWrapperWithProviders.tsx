@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { InMemoryStorageProvider } from "@fhevm-sdk";
+import { InMemoryStorageProvider } from "fhevm-sdk";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";

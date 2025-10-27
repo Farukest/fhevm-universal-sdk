@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { useFhevm } from "@fhevm-sdk";
+import { useFHEVM } from "fhevm-sdk/react";
 import { useAccount } from "wagmi";
 import { RainbowKitCustomConnectButton } from "~~/components/helper/RainbowKitCustomConnectButton";
 import { useFHECounterWagmi } from "~~/hooks/fhecounter-example/useFHECounterWagmi";
@@ -21,25 +21,24 @@ export const FHECounterDemo = () => {
   // FHEVM instance
   //////////////////////////////////////////////////////////////////////////////
 
-  // Create EIP-1193 provider from wagmi for FHEVM
+  // Create EIP-1193 provider from wagmi for FHEVM - memoize with isConnected
   const provider = useMemo(() => {
-    if (typeof window === "undefined") return undefined;
-
+    if (!isConnected || typeof window === "undefined") return undefined;
     // Get the wallet provider from window.ethereum
     return (window as any).ethereum;
-  }, []);
+  }, [isConnected]);
 
-  const initialMockChains = { 31337: "http://localhost:8545" };
+  const initialMockChains = useMemo(() => ({ 31337: "http://localhost:8545" }), []);
 
   const {
     instance: fhevmInstance,
     status: fhevmStatus,
     error: fhevmError,
-  } = useFhevm({
+  } = useFHEVM({
     provider,
     chainId,
-    initialMockChains,
-    enabled: true, // use enabled to dynamically create the instance on-demand
+    mockChains: initialMockChains,
+    enabled: isConnected && provider !== undefined,
   });
 
   //////////////////////////////////////////////////////////////////////////////

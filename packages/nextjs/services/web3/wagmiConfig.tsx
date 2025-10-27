@@ -1,7 +1,7 @@
 import { wagmiConnectors } from "./wagmiConnectors";
 import { Chain, createClient, fallback, http } from "viem";
 import { hardhat, mainnet } from "viem/chains";
-import { createConfig } from "wagmi";
+import { createConfig, createStorage } from "wagmi";
 import scaffoldConfig, { ScaffoldConfig } from "~~/scaffold.config";
 import { getAlchemyHttpUrl } from "~~/utils/helper";
 
@@ -15,7 +15,10 @@ export const enabledChains = targetNetworks.find((network: Chain) => network.id 
 export const wagmiConfig = createConfig({
   chains: enabledChains,
   connectors: wagmiConnectors(),
-  ssr: true,
+  ssr: false,
+  storage: createStorage({
+    storage: typeof window !== "undefined" ? window.localStorage : undefined,
+  }),
   client: ({ chain }) => {
     let rpcFallbacks = [http()];
     const rpcOverrideUrl = (scaffoldConfig.rpcOverrides as ScaffoldConfig["rpcOverrides"])?.[chain.id];

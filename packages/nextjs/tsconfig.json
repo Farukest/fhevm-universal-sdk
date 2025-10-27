@@ -15,7 +15,9 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "~~/*": ["./*"]
+      "~~/*": ["./*"],
+      "fhevm-sdk": ["../fhevm-sdk/src/index.ts"],
+      "fhevm-sdk/*": ["../fhevm-sdk/src/*"]
     },
     "plugins": [
       {
