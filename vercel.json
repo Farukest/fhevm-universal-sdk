@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd packages/fhevm-sdk && pnpm build && cd ../nextjs && pnpm build",
+  "outputDirectory": "packages/nextjs/.next",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "framework": "nextjs",
+  "ignoreCommand": "git diff HEAD^ HEAD --quiet ."
+}
