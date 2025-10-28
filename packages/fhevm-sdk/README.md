@@ -51,10 +51,10 @@ No need to manage `@zama-fhe/relayer-sdk`, `@fhevm/mock-utils`, etc. separately.
 ### Modular & Extensible - Use what you need
 
 ```typescript
-import { FHEVMClient } from 'uni-uni-fhevm-sdk/core';              // Core only
-import { useFHEVM } from 'uni-uni-fhevm-sdk/react';                // React adapter
-import { useFHEVM } from 'uni-uni-fhevm-sdk/vue';                  // Vue adapter
-import { createFHEVMClient } from 'uni-uni-fhevm-sdk/vanilla';     // Vanilla JS
+import { FHEVMClient } from 'uni-fhevm-sdk/core';              // Core only
+import { useFHEVM } from 'uni-fhevm-sdk/react';                // React adapter
+import { useFHEVM } from 'uni-fhevm-sdk/vue';                  // Vue adapter
+import { createFHEVMClient } from 'uni-fhevm-sdk/vanilla';     // Vanilla JS
 ```
 
 ---
@@ -91,7 +91,7 @@ pnpm add uni-fhevm-sdk ethers
 ### React Example
 
 ```tsx
-import { useFHEVM, useFHEEncrypt, useFHEDecrypt } from 'uni-uni-fhevm-sdk/react';
+import { useFHEVM, useFHEEncrypt, useFHEDecrypt } from 'uni-fhevm-sdk/react';
 import { useAccount, useSigner } from 'wagmi';
 
 function MyApp() {
@@ -200,7 +200,7 @@ const handleEncrypt = async () => {
 ### Vanilla JavaScript Example
 
 ```typescript
-import { createFHEVMClient } from 'uni-uni-fhevm-sdk/vanilla';
+import { createFHEVMClient } from 'uni-fhevm-sdk/vanilla';
 import { ethers } from 'ethers';
 
 // Initialize client
@@ -250,7 +250,7 @@ client.dispose();
 Framework-agnostic core client for advanced usage.
 
 ```typescript
-import { FHEVMClient } from 'uni-uni-fhevm-sdk/core';
+import { FHEVMClient } from 'uni-fhevm-sdk/core';
 
 const client = new FHEVMClient({
   provider: window.ethereum,
@@ -349,7 +349,7 @@ const { decrypt, results } = useFHEDecrypt(config);
 ### Vanilla API
 
 ```typescript
-import { createFHEVMClient } from 'uni-uni-fhevm-sdk/vanilla';
+import { createFHEVMClient } from 'uni-fhevm-sdk/vanilla';
 
 const client = await createFHEVMClient(config);
 
@@ -368,7 +368,7 @@ client.dispose();
 ### Custom Encryption Builder
 
 ```typescript
-import { EncryptionBuilder } from 'uni-uni-fhevm-sdk/core/encryption';
+import { EncryptionBuilder } from 'uni-fhevm-sdk/core/encryption';
 
 const builder = new EncryptionBuilder(input);
 
@@ -399,7 +399,7 @@ const results = await client.decrypt(
 
 ```typescript
 // Core (shared logic)
-import { FHEVMClient } from 'uni-uni-fhevm-sdk/core';
+import { FHEVMClient } from 'uni-fhevm-sdk/core';
 
 // React
 import { useFHEVM } from 'uni-fhevm-sdk/react';
@@ -408,7 +408,7 @@ import { useFHEVM } from 'uni-fhevm-sdk/react';
 import { useFHEVM } from 'uni-fhevm-sdk/vue';
 
 // Vanilla
-import { createFHEVMClient } from 'uni-uni-fhevm-sdk/vanilla';
+import { createFHEVMClient } from 'uni-fhevm-sdk/vanilla';
 ```
 
 ---
