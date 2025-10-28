@@ -1,7 +1,19 @@
 {
-  "name": "fhevm-sdk",
+  "name": "uni-fhevm-sdk",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "Universal FHEVM SDK for React, Vue, and Vanilla JS - Framework-agnostic encryption toolkit",
+  "keywords": ["fhevm", "zama", "encryption", "react", "vue", "sdk", "homomorphic", "blockchain"],
+  "author": "Farukest",
+  "license": "BSD-3-Clause-Clear",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/farukest/fhevm-universal-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/farukest/fhevm-universal-sdk/issues"
+  },
+  "homepage": "https://unifhevm.xyz",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",

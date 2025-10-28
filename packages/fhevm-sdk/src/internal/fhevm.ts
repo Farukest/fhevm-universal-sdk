@@ -62,7 +62,7 @@ function checkIsAddress(a: unknown): a is `0x${string}` {
   return true;
 }
 
-export class FhevmAbortError extends Error {
+export class FhevmAbortError extends Error {tamam
   constructor(message = "FHEVM operation was cancelled") {
     super(message);
     this.name = "FhevmAbortError";
