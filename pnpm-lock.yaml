@@ -209,6 +209,9 @@ importers:
       daisyui:
         specifier: 5.0.9
         version: 5.0.9
+      ethers:
+        specifier: ^6.15.0
+        version: 6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       idb:
         specifier: ^8.0.3
         version: 8.0.3
@@ -237,8 +240,8 @@ importers:
         specifier: ~2.4.0
         version: 2.4.1(csstype@3.1.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       uni-fhevm-sdk:
-        specifier: ^0.2.3
-        version: 0.2.3(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.8.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.0.0)(vue@3.5.22(typescript@5.8.3))
+        specifier: ^0.2.4
+        version: 0.2.4(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.8.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.0.0)(vue@3.5.22(typescript@5.8.3))
       usehooks-ts:
         specifier: ~3.1.0
         version: 3.1.1(react@19.0.0)
@@ -322,8 +325,8 @@ importers:
         specifier: ^4.18.2
         version: 4.21.2
       uni-fhevm-sdk:
-        specifier: ^0.2.3
-        version: 0.2.3(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3))
+        specifier: ^0.2.4
+        version: 0.2.4(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3))
     devDependencies:
       vite:
         specifier: ^5.4.11
@@ -347,8 +350,8 @@ importers:
         specifier: ^19.1.1
         version: 19.2.0(react@19.2.0)
       uni-fhevm-sdk:
-        specifier: ^0.2.3
-        version: 0.2.3(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3))
+        specifier: ^0.2.4
+        version: 0.2.4(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3))
     devDependencies:
       '@eslint/js':
         specifier: ^9.36.0
@@ -399,8 +402,8 @@ importers:
         specifier: ^6.13.7
         version: 6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       uni-fhevm-sdk:
-        specifier: ^0.2.3
-        version: 0.2.3(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3))
+        specifier: ^0.2.4
+        version: 0.2.4(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3))
     devDependencies:
       vite:
         specifier: ^5.4.11
@@ -418,8 +421,8 @@ importers:
         specifier: ^6.15.0
         version: 6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       uni-fhevm-sdk:
-        specifier: ^0.2.3
-        version: 0.2.3(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3))
+        specifier: ^0.2.4
+        version: 0.2.4(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3))
       vue:
         specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.3)
@@ -2845,6 +2848,7 @@ packages:
 
   '@walletconnect/ethereum-provider@2.21.1':
     resolution: {integrity: sha512-SSlIG6QEVxClgl1s0LMk4xr2wg4eT3Zn/Hb81IocyqNSGfXpjtawWxKxiC5/9Z95f1INyBD6MctJbL/R1oBwIw==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/events@1.0.1':
     resolution: {integrity: sha512-NPTqaoi0oPBVNuLv7qPaJazmGHs5JGyO8eEAk5VGKmJzDR7AHzD4k6ilox5kxk1iwiOnFopBOOMLs86Oa76HpQ==}
@@ -2889,9 +2893,11 @@ packages:
 
   '@walletconnect/sign-client@2.21.0':
     resolution: {integrity: sha512-z7h+PeLa5Au2R591d/8ZlziE0stJvdzP9jNFzFolf2RG/OiXulgFKum8PrIyXy+Rg2q95U9nRVUF9fWcn78yBA==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/sign-client@2.21.1':
     resolution: {integrity: sha512-QaXzmPsMnKGV6tc4UcdnQVNOz4zyXgarvdIQibJ4L3EmLat73r5ZVl4c0cCOcoaV7rgM9Wbphgu5E/7jNcd3Zg==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/time@1.0.2':
     resolution: {integrity: sha512-uzdd9woDcJ1AaBZRhqy5rNC9laqWGErfc4dxA9a87mPdKOgWMD85mcFo9dIYIts/Jwocfwn07EC6EzclKubk/g==}
@@ -2904,9 +2910,11 @@ packages:
 
   '@walletconnect/universal-provider@2.21.0':
     resolution: {integrity: sha512-mtUQvewt+X0VBQay/xOJBvxsB3Xsm1lTwFjZ6WUwSOTR1X+FNb71hSApnV5kbsdDIpYPXeQUbGt2se1n5E5UBg==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/universal-provider@2.21.1':
     resolution: {integrity: sha512-Wjx9G8gUHVMnYfxtasC9poGm8QMiPCpXpbbLFT+iPoQskDDly8BwueWnqKs4Mx2SdIAWAwuXeZ5ojk5qQOxJJg==}
+    deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
 
   '@walletconnect/utils@2.21.0':
     resolution: {integrity: sha512-zfHLiUoBrQ8rP57HTPXW7rQMnYxYI4gT9yTACxVW6LhIFROTF6/ytm5SKNoIvi4a5nX5dfXG4D9XwQUCu8Ilig==}
@@ -7663,8 +7671,8 @@ packages:
     resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
     engines: {node: '>=14.0'}
 
-  uni-fhevm-sdk@0.2.3:
-    resolution: {integrity: sha512-kPBV24pg0G8uza8q3bvkqjUJiYKfMf/Z/OrhxTbzRZbC6tps4VAsIi6zz6n+ng/ONkt6R2sw7TbAsw8ULZnMfw==}
+  uni-fhevm-sdk@0.2.4:
+    resolution: {integrity: sha512-qSLHaXvD0dXaRkAq9ngKDvfzTLF4N6Lj9hjV5IZIZ2vnh0OPeiz5PfaI8Kvf8z12nI2DLOEtDme8awLi6nyq6Q==}
     peerDependencies:
       '@fhevm/mock-utils': ^0.1.0
       '@zama-fhe/relayer-sdk': ^0.2.0
@@ -10769,7 +10777,7 @@ snapshots:
 
   '@types/bn.js@5.2.0':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 24.9.2
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -10786,7 +10794,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 6.0.0
-      '@types/node': 22.7.5
+      '@types/node': 24.9.2
 
   '@types/http-cache-semantics@4.0.4': {}
 
@@ -10802,7 +10810,7 @@ snapshots:
 
   '@types/mkdirp@0.5.2':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 24.9.2
 
   '@types/mocha@10.0.10': {}
 
@@ -10810,7 +10818,7 @@ snapshots:
 
   '@types/mute-stream@0.0.4':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 24.9.2
 
   '@types/node@16.18.11': {}
 
@@ -10832,7 +10840,7 @@ snapshots:
 
   '@types/pbkdf2@3.1.2':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 24.9.2
 
   '@types/prettier@2.7.3': {}
 
@@ -10852,11 +10860,11 @@ snapshots:
 
   '@types/resolve@0.0.8':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 24.9.2
 
   '@types/secp256k1@4.0.6':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 24.9.2
 
   '@types/trusted-types@2.0.7': {}
 
@@ -16337,7 +16345,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.7.5
+      '@types/node': 24.9.2
       long: 5.3.2
 
   protons-runtime@5.6.0:
@@ -17587,7 +17595,7 @@ snapshots:
     dependencies:
       '@fastify/busboy': 2.1.1
 
-  uni-fhevm-sdk@0.2.3(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.8.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.0.0)(vue@3.5.22(typescript@5.8.3)):
+  uni-fhevm-sdk@0.2.4(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.8.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.0.0)(vue@3.5.22(typescript@5.8.3)):
     dependencies:
       idb: 8.0.3
     optionalDependencies:
@@ -17597,7 +17605,7 @@ snapshots:
       react: 19.0.0
       vue: 3.5.22(typescript@5.8.3)
 
-  uni-fhevm-sdk@0.2.3(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3)):
+  uni-fhevm-sdk@0.2.4(@fhevm/mock-utils@0.1.0(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(typescript@5.9.3))(@zama-fhe/relayer-sdk@0.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(ethers@6.15.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(react@19.2.0)(vue@3.5.22(typescript@5.9.3)):
     dependencies:
       idb: 8.0.3
     optionalDependencies:
