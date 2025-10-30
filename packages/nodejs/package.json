@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "uni-fhevm-sdk": "^0.2.5",
+    "uni-fhevm-sdk": "^0.2.4",
     "ethers": "^6.13.7",
     "@fhevm/mock-utils": "^0.1.0",
     "@zama-fhe/relayer-sdk": "^0.2.0"
