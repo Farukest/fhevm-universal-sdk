@@ -153,6 +153,43 @@ pnpm start:nextjs     # Next.js - http://localhost:3000
 
 ---
 
+## 🔌 Wallet Integration
+
+Need to connect a wallet? Here's the pattern used in all our examples - just copy and use:
+
+```tsx
+// React Hook
+import { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+
+function useWallet() {
+  const [account, setAccount] = useState(null);
+  const [signer, setSigner] = useState(null);
+
+  const connectWallet = async () => {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const accounts = await provider.send('eth_requestAccounts', []);
+    setAccount(accounts[0]);
+    setSigner(new ethers.JsonRpcSigner(provider, accounts[0]));
+  };
+
+  useEffect(() => {
+    // Auto-connect if already connected
+    if (window.ethereum) {
+      window.ethereum.send('eth_accounts', []).then(accounts => {
+        if (accounts.length > 0) connectWallet();
+      });
+    }
+  }, []);
+
+  return { account, signer, connectWallet };
+}
+```
+
+**See full implementation with Vue, Vanilla JS, and advanced features in [SDK Documentation](./packages/fhevm-sdk/README.md#-wallet-integration)**
+
+---
+
 ## 💎 Key Features
 
 ### Framework-Agnostic Core

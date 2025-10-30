@@ -160,6 +160,182 @@ await contract.increment(encrypted.handles[0], encrypted.inputProof);
 
 ---
 
+### 🔌 Wallet Integration
+
+Quick copy-paste wallet connection pattern used in our examples. Works with MetaMask and other EIP-1193 providers.
+
+**React**
+```tsx
+import { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+
+function useWallet() {
+  const [account, setAccount] = useState<string | null>(null);
+  const [signer, setSigner] = useState<any>(null);
+  const [chainId, setChainId] = useState<number | null>(null);
+
+  // Connect wallet
+  const connectWallet = async () => {
+    if (!window.ethereum) {
+      alert('MetaMask not installed');
+      return;
+    }
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const accounts = await provider.send('eth_requestAccounts', []);
+    const network = await provider.getNetwork();
+
+    setAccount(accounts[0]);
+    setSigner(new ethers.JsonRpcSigner(provider, accounts[0]));
+    setChainId(Number(network.chainId));
+  };
+
+  // Auto-connect on mount if already connected
+  useEffect(() => {
+    const autoConnect = async () => {
+      if (window.ethereum) {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const accounts = await provider.send('eth_accounts', []);
+
+        if (accounts.length > 0) {
+          const network = await provider.getNetwork();
+          setAccount(accounts[0]);
+          setSigner(new ethers.JsonRpcSigner(provider, accounts[0]));
+          setChainId(Number(network.chainId));
+        }
+      }
+    };
+
+    autoConnect();
+
+    // Listen for account/chain changes
+    window.ethereum?.on('accountsChanged', (accounts: string[]) => {
+      if (accounts.length === 0) {
+        setAccount(null);
+        setSigner(null);
+      } else {
+        window.location.reload();
+      }
+    });
+
+    window.ethereum?.on('chainChanged', () => {
+      window.location.reload();
+    });
+  }, []);
+
+  return { account, signer, chainId, connectWallet };
+}
+
+// Usage in component
+function App() {
+  const { account, signer, chainId, connectWallet } = useWallet();
+
+  if (!account) {
+    return <button onClick={connectWallet}>Connect Wallet</button>;
+  }
+
+  return <div>Connected: {account}</div>;
+}
+```
+
+**Vue**
+```vue
+<script setup>
+import { ref, onMounted } from 'vue';
+import { ethers } from 'ethers';
+
+const account = ref(null);
+const signer = ref(null);
+const chainId = ref(null);
+
+const connectWallet = async () => {
+  if (!window.ethereum) {
+    alert('MetaMask not installed');
+    return;
+  }
+
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const accounts = await provider.send('eth_requestAccounts', []);
+  const network = await provider.getNetwork();
+
+  account.value = accounts[0];
+  signer.value = new ethers.JsonRpcSigner(provider, accounts[0]);
+  chainId.value = Number(network.chainId);
+};
+
+onMounted(async () => {
+  if (window.ethereum) {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const accounts = await provider.send('eth_accounts', []);
+
+    if (accounts.length > 0) {
+      const network = await provider.getNetwork();
+      account.value = accounts[0];
+      signer.value = new ethers.JsonRpcSigner(provider, accounts[0]);
+      chainId.value = Number(network.chainId);
+    }
+
+    window.ethereum.on('accountsChanged', () => window.location.reload());
+    window.ethereum.on('chainChanged', () => window.location.reload());
+  }
+});
+</script>
+
+<template>
+  <button v-if="!account" @click="connectWallet">Connect Wallet</button>
+  <div v-else>Connected: {{ account }}</div>
+</template>
+```
+
+**Vanilla JS**
+```typescript
+import { ethers } from 'ethers';
+
+let account = null;
+let signer = null;
+let chainId = null;
+
+async function connectWallet() {
+  if (!window.ethereum) {
+    alert('MetaMask not installed');
+    return;
+  }
+
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const accounts = await provider.send('eth_requestAccounts', []);
+  const network = await provider.getNetwork();
+
+  account = accounts[0];
+  signer = new ethers.JsonRpcSigner(provider, accounts[0]);
+  chainId = Number(network.chainId);
+
+  updateUI();
+}
+
+// Auto-connect
+window.addEventListener('DOMContentLoaded', async () => {
+  if (window.ethereum) {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const accounts = await provider.send('eth_accounts', []);
+
+    if (accounts.length > 0) {
+      const network = await provider.getNetwork();
+      account = accounts[0];
+      signer = new ethers.JsonRpcSigner(provider, accounts[0]);
+      chainId = Number(network.chainId);
+      updateUI();
+    }
+
+    window.ethereum.on('accountsChanged', () => window.location.reload());
+    window.ethereum.on('chainChanged', () => window.location.reload());
+  }
+});
+
+document.getElementById('connectBtn').onclick = connectWallet;
+```
+
+---
+
 ### Complete Examples
 
 The examples below show the full FHEVM flow: **initialization → encryption → contract interaction → decryption**. Deploy the example contract first (see [Contract Setup](#contract-setup)), then use these patterns:
