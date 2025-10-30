@@ -3,11 +3,13 @@
  * @module @fhevm-sdk/core
  */
 
-import { Eip1193Provider, JsonRpcSigner } from "ethers";
-import { createFhevmInstance, FhevmAbortError } from "../internal/fhevm";
+import type { Eip1193Provider } from "ethers";
+import { JsonRpcSigner } from "ethers";
+import { createFhevmInstance } from "../internal/fhevm";
 import type { FhevmInstance } from "../fhevmTypes";
 import { FhevmDecryptionSignature } from "../FhevmDecryptionSignature";
-import { GenericStringStorage, GenericStringInMemoryStorage } from "../storage/GenericStringStorage";
+import type { GenericStringStorage } from "../storage/GenericStringStorage";
+import { GenericStringInMemoryStorage } from "../storage/GenericStringStorage";
 import type { RelayerEncryptedInput } from "@zama-fhe/relayer-sdk/web";
 
 /**
@@ -241,7 +243,7 @@ export class FHEVMClient {
         mockChains,
         signal: this.abortController.signal,
         chainId: this.config.chainId,
-        onStatusChange: (status) => {
+        onStatusChange: (_status) => {
           // Internal status from createFhevmInstance
           // Silent - no logging needed in production
         },

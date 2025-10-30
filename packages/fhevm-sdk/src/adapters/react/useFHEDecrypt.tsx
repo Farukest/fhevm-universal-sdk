@@ -9,7 +9,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FhevmInstance } from "../../fhevmTypes";
 import type { JsonRpcSigner } from "ethers";
 import { DecryptionManager, type DecryptionRequest, type DecryptionResults, type DecryptionConfig } from "../../core/decryption";
-import { GenericStringStorage } from "../../storage/GenericStringStorage";
+import type { GenericStringStorage } from "../../storage/GenericStringStorage";
 
 /**
  * Configuration for decryption hook

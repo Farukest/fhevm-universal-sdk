@@ -1,6 +1,6 @@
 {
   "name": "uni-fhevm-sdk",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": false,
   "description": "Universal FHEVM SDK for React, Vue, and Vanilla JS - Framework-agnostic encryption toolkit",
   "keywords": [

@@ -82,7 +82,7 @@ export function useFHEVM(config: {
   mockChains: { 31337: string };
   enabled: boolean
 }): UseFHEVMResult {
-  const { enabled = true, ...clientConfig } = config;
+  const { enabled = true } = config;
 
   const [client, setClient] = useState<FHEVMClient | undefined>(undefined);
   const [status, setStatus] = useState<FHEVMClientStatus>("idle");

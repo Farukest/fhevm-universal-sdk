@@ -6,7 +6,8 @@
 import type { FhevmInstance } from "../fhevmTypes";
 import type { JsonRpcSigner } from "ethers";
 import { FhevmDecryptionSignature } from "../FhevmDecryptionSignature";
-import { GenericStringStorage, GenericStringInMemoryStorage } from "../storage/GenericStringStorage";
+import type { GenericStringStorage } from "../storage/GenericStringStorage";
+import { GenericStringInMemoryStorage } from "../storage/GenericStringStorage";
 
 /**
  * Single decryption request
@@ -117,7 +118,7 @@ export class DecryptionManager {
 
     if (config.forceRefresh) {
       // Force new signature
-      const userAddress = (await signer.getAddress()) as `0x${string}`;
+      const _userAddress = (await signer.getAddress()) as `0x${string}`;
       const { publicKey, privateKey } =
         config.keypair || (this.instance as any).generateKeypair();
 
@@ -305,9 +306,9 @@ export class DecryptionManager {
    * @param storage - Optional storage
    */
   async clearSignature(
-    contractAddresses: `0x${string}`[],
-    userAddress: `0x${string}`,
-    storage?: GenericStringStorage
+    _contractAddresses: `0x${string}`[],
+    _userAddress: `0x${string}`,
+    _storage?: GenericStringStorage
   ): Promise<void> {
     // Implementation would depend on GenericStringStorage having a remove method
     // For now, we can't clear it without extending the storage interface
