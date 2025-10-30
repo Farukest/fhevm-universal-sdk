@@ -11,4 +11,7 @@ export default defineConfig({
     port: 3004,
     host: true,
   },
+  preview: {
+    allowedHosts: ['localhost', '127.0.0.1', 'vue.unifhevm.xyz']
+  }
 })

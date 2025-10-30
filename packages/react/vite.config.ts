@@ -11,4 +11,7 @@ export default defineConfig({
     port: 3002,
     host: true,
   },
+  preview: {
+    allowedHosts: ['localhost', '127.0.0.1', 'react.unifhevm.xyz']
+  }
 })
