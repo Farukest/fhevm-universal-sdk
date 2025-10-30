@@ -36,13 +36,12 @@ fhevm-react-template/
 │   │
 │   ├── hardhat/                # Smart contracts & deployment
 │   │
-│   ├── react/                  # React example (workspace)
-│   ├── vue/                    # Vue example (workspace)
-│   ├── vanilla/                # Vanilla JS example (workspace)
-│   ├── nodejs/                 # Node.js example (workspace)
-│   └── nextjs/                 # Next.js example (workspace)
+│   ├── react/                  # React example
+│   ├── vue/                    # Vue example
+│   ├── vanilla/                # Vanilla JS example
+│   ├── nodejs/                 # Node.js example
+│   └── nextjs/                 # Next.js example
 │
-├── BOUNTY_SUBMISSION.md        # 📄 Detailed submission document
 └── README.md                   # This file
 ```
 
@@ -126,22 +125,9 @@ All frontends connect to the same local Hardhat node and use the same deployed c
 
 ## 📚 Documentation
 
-### Complete SDK Documentation
+**[📖 Complete SDK Documentation →](./packages/fhevm-sdk/README.md)**
 
-See **[packages/fhevm-sdk/README.md](./packages/fhevm-sdk/README.md)** for:
-- Complete API reference
-- Framework-specific examples
-- Architecture overview
-- Advanced usage patterns
-
-### Bounty Submission Details
-
-See **[BOUNTY_SUBMISSION.md](./BOUNTY_SUBMISSION.md)** for:
-- What was built and why
-- Requirements checklist
-- Architecture design
-- Innovation highlights
-- Comparison with existing solutions
+For detailed API reference, examples, and advanced usage, see the SDK documentation.
 
 ---
 
@@ -355,7 +341,6 @@ Powered by:
 ## 📞 Support & Resources
 
 - **📖 SDK Documentation**: [packages/fhevm-sdk/README.md](./packages/fhevm-sdk/README.md)
-- **📄 Submission Details**: [BOUNTY_SUBMISSION.md](./BOUNTY_SUBMISSION.md)
 - **🌐 Zama Docs**: [https://docs.zama.ai/protocol/](https://docs.zama.ai/protocol/)
 - **💬 Discord**: [https://discord.com/invite/zama](https://discord.com/invite/zama)
 - **🐛 Issues**: [GitHub Issues](https://github.com/zama-ai/fhevm-react-template/issues)
