@@ -6,6 +6,30 @@ function _timestampNow(): number {
   return Math.floor(Date.now() / 1000);
 }
 
+/**
+ * Safely unwrap any proxy object (Vue Proxy, etc.) to access raw object
+ * This is needed because Vue's Proxy wrapper prevents access to private class members
+ */
+function unwrapProxy<T>(obj: T): T {
+  // Check if it's a Vue 3 Proxy by looking for the raw symbol
+  if (obj && typeof obj === 'object') {
+    // Try to get the raw object using Vue's internal symbol
+    const rawSymbol = Symbol.for('__v_raw');
+    const raw = (obj as any)[rawSymbol];
+    if (raw) return raw;
+
+    // Fallback: check if it's a Proxy by trying to access a property
+    // If accessing triggers proxy trap errors, we know it's wrapped
+    try {
+      // For most proxies, this will just return the object
+      return obj;
+    } catch {
+      return obj;
+    }
+  }
+  return obj;
+}
+
 class FhevmDecryptionSignatureStorageKey {
   #contractAddresses: `0x${string}`[];
   #userAddress: `0x${string}`;
@@ -19,7 +43,9 @@ class FhevmDecryptionSignatureStorageKey {
 
     const sortedContractAddresses = (contractAddresses as `0x${string}`[]).sort();
 
-    const emptyEIP712 = (instance as any).createEIP712(publicKey ?? (ethers as any).ZeroAddress, sortedContractAddresses, 0, 0);
+    // Unwrap any proxy wrappers (Vue, etc.) to access raw instance
+    const rawInstance = unwrapProxy(instance);
+    const emptyEIP712 = (rawInstance as any).createEIP712(publicKey ?? (ethers as any).ZeroAddress, sortedContractAddresses, 0, 0);
 
     try {
       const hash = (ethers as any).TypedDataEncoder.hash(
@@ -234,10 +260,12 @@ export class FhevmDecryptionSignature {
     signer: ethers.JsonRpcSigner,
   ): Promise<FhevmDecryptionSignature | null> {
     try {
+      // Unwrap any proxy wrappers (Vue, etc.) to access raw instance
+      const rawInstance = unwrapProxy(instance);
       const userAddress = (await signer.getAddress()) as `0x${string}`;
       const startTimestamp = _timestampNow();
       const durationDays = 365;
-      const eip712 = (instance as any).createEIP712(publicKey, contractAddresses, startTimestamp, durationDays);
+      const eip712 = (rawInstance as any).createEIP712(publicKey, contractAddresses, startTimestamp, durationDays);
       const signature = await (signer as any).signTypedData(
         eip712.domain,
         { UserDecryptRequestVerification: eip712.types.UserDecryptRequestVerification },
@@ -253,7 +281,8 @@ export class FhevmDecryptionSignature {
         eip712: eip712 as EIP712Type,
         userAddress,
       });
-    } catch {
+    } catch (error) {
+      console.error('[FhevmDecryptionSignature.new] Failed to create signature:', error);
       return null;
     }
   }
@@ -279,7 +308,9 @@ export class FhevmDecryptionSignature {
       return cached;
     }
 
-    const { publicKey, privateKey } = keyPair ?? (instance as any).generateKeypair();
+    // Unwrap any proxy wrappers (Vue, etc.) to access raw instance
+    const rawInstance = unwrapProxy(instance);
+    const { publicKey, privateKey } = keyPair ?? (rawInstance as any).generateKeypair();
 
     const sig = await FhevmDecryptionSignature.new(instance, contractAddresses, publicKey, privateKey, signer);
 

@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/helper/contract";
 const deployedContracts = {
   31337: {
     FHECounter: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7",
       abi: [
         {
           inputs: [
@@ -74,6 +74,77 @@ const deployedContracts = {
       ],
       inheritedFunctions: {},
       deployedOnBlock: 3,
+    },
+  },
+  11155111: {
+    FHECounter: {
+      address: "0xA91422DBbfbc125C0A852281a391D89389C4D69C",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "externalEuint32",
+              name: "inputEuint32",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes",
+              name: "inputProof",
+              type: "bytes",
+            },
+          ],
+          name: "decrement",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getCount",
+          outputs: [
+            {
+              internalType: "euint32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "externalEuint32",
+              name: "inputEuint32",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes",
+              name: "inputProof",
+              type: "bytes",
+            },
+          ],
+          name: "increment",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "protocolId",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+      deployedOnBlock: 7542537,
     },
   },
 } as const;

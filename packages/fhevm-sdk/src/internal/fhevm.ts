@@ -5,7 +5,6 @@ import type {
   FhevmLoadSDKType,
   FhevmWindowType,
 } from "./fhevmTypes";
-import { isFhevmWindowType, RelayerSDKLoader } from "./RelayerSDKLoader";
 import { publicKeyStorageGet, publicKeyStorageSet } from "./PublicKeyStorage";
 import { FhevmInstance, FhevmInstanceConfig } from "../fhevmTypes";
 
@@ -26,29 +25,31 @@ function throwFhevmError(
   throw new FhevmReactError(code, message, cause ? { cause } : undefined);
 }
 
-const isFhevmInitialized = (): boolean => {
-  if (!isFhevmWindowType(window)) {
-    return false;
+// Store SDK module globally to avoid re-importing
+let relayerSDKModule: any = null;
+let sdkInitialized = false;
+
+const fhevmLoadSDK = async () => {
+  if (relayerSDKModule) {
+    return relayerSDKModule;
   }
-  return window.relayerSDK.__initialized__ === true;
+
+  // Use npm package instead of CDN
+  relayerSDKModule = await import('@zama-fhe/relayer-sdk/bundle');
+  return relayerSDKModule;
 };
 
-const fhevmLoadSDK: FhevmLoadSDKType = () => {
-  const loader = new RelayerSDKLoader();
-  return loader.load();
-};
+const fhevmInitSDK = async (options?: FhevmInitSDKOptions) => {
+  if (sdkInitialized) {
+    return true;
+  }
 
-const fhevmInitSDK: FhevmInitSDKType = async (
-  options?: FhevmInitSDKOptions
-) => {
-  if (!isFhevmWindowType(window)) {
-    throw new Error("window.relayerSDK is not available");
+  if (!relayerSDKModule) {
+    throw new Error("SDK not loaded. Call fhevmLoadSDK first.");
   }
-  const result = await window.relayerSDK.initSDK(options);
-  window.relayerSDK.__initialized__ = result;
-  if (!result) {
-    throw new Error("window.relayerSDK.initSDK failed.");
-  }
+
+  await relayerSDKModule.initSDK(options);
+  sdkInitialized = true;
   return true;
 };
 
@@ -62,7 +63,7 @@ function checkIsAddress(a: unknown): a is `0x${string}` {
   return true;
 }
 
-export class FhevmAbortError extends Error {tamam
+export class FhevmAbortError extends Error {
   constructor(message = "FHEVM operation was cancelled") {
     super(message);
     this.name = "FhevmAbortError";
@@ -189,8 +190,9 @@ async function resolve(
   // Resolve rpc url
   let rpcUrl = typeof providerOrUrl === "string" ? providerOrUrl : undefined;
 
+  // Default mock chain: Hardhat (31337)
   const _mockChains: Record<number, string> = {
-    31337: "http://localhost:8545",
+    31337: "http://localhost:8545", // Hardhat default
     ...(mockChains ?? {}),
   };
 
@@ -264,31 +266,19 @@ export const createFhevmInstance = async (parameters: {
 
   throwIfAborted();
 
-  if (!isFhevmWindowType(window)) {
-    notify("sdk-loading");
+  // Load SDK from npm package
+  notify("sdk-loading");
+  const sdk = await fhevmLoadSDK();
+  throwIfAborted();
+  notify("sdk-loaded");
 
-    // throws an error if failed
-    await fhevmLoadSDK();
-    throwIfAborted();
+  // Initialize SDK
+  notify("sdk-initializing");
+  await fhevmInitSDK();
+  throwIfAborted();
+  notify("sdk-initialized");
 
-    notify("sdk-loaded");
-  }
-
-  // notify that state === "sdk-loaded"
-
-  if (!isFhevmInitialized()) {
-    notify("sdk-initializing");
-
-    // throws an error if failed
-    await fhevmInitSDK();
-    throwIfAborted();
-
-    notify("sdk-initialized");
-  }
-
-  const relayerSDK = (window as unknown as FhevmWindowType).relayerSDK;
-
-  const aclAddress = relayerSDK.SepoliaConfig.aclContractAddress;
+  const aclAddress = sdk.SepoliaConfig.aclContractAddress;
   if (!checkIsAddress(aclAddress)) {
     throw new Error(`Invalid address: ${aclAddress}`);
   }
@@ -297,7 +287,7 @@ export const createFhevmInstance = async (parameters: {
   throwIfAborted();
 
   const config: FhevmInstanceConfig = {
-    ...relayerSDK.SepoliaConfig,
+    ...sdk.SepoliaConfig,
     network: providerOrUrl,
     publicKey: pub.publicKey,
     publicParams: pub.publicParams,
@@ -306,7 +296,7 @@ export const createFhevmInstance = async (parameters: {
   // notify that state === "creating"
   notify("creating");
 
-  const instance = await relayerSDK.createInstance(config);
+  const instance = await sdk.createInstance(config);
 
   // Save the key even if aborted
   await publicKeyStorageSet(

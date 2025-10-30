@@ -20,7 +20,20 @@ export interface FHEVMClientConfig {
   /** Chain ID for the target network */
   chainId?: number;
 
-  /** Mock chains configuration for local development (chainId -> rpcUrl) */
+  /**
+   * Mock mode for local development
+   * - true: Use mock FHEVM (instant local encryption, no KMS)
+   * - false: Use real FHEVM (with KMS/gateway, works on any network)
+   * - undefined: Auto-detect (31337 = mock, others = real)
+   *
+   * @default undefined (auto-detect)
+   */
+  mockMode?: boolean;
+
+  /**
+   * Advanced: Mock chains configuration for local development (chainId -> rpcUrl)
+   * Use mockMode instead for simpler configuration
+   */
   mockChains?: Record<number, string>;
 
   /** Storage adapter for caching decryption signatures */
@@ -195,14 +208,42 @@ export class FHEVMClient {
     this.abortController = new AbortController();
 
     try {
+      // Determine mockChains based on mockMode
+      let mockChains = this.config.mockChains;
+
+      if (this.config.mockMode !== undefined) {
+        if (this.config.mockMode === true) {
+          // Force mock mode: treat current network as mock
+          const provider = this.config.provider;
+          const rpcUrl = typeof provider === "string" ? provider : "http://localhost:8545";
+
+          // If chainId is provided, use it for mock
+          // Otherwise createFhevmInstance will detect it
+          if (this.config.chainId) {
+            mockChains = {
+              [this.config.chainId]: rpcUrl,
+            };
+          } else {
+            // Default to Hardhat local dev chain
+            mockChains = {
+              31337: rpcUrl,
+            };
+          }
+        } else if (this.config.mockMode === false) {
+          // Force real mode: no mock chains
+          mockChains = {};
+        }
+        // If mockMode is undefined, use existing mockChains or default behavior
+      }
+
       this.instance = await createFhevmInstance({
         provider: this.config.provider,
-        mockChains: this.config.mockChains,
+        mockChains,
         signal: this.abortController.signal,
+        chainId: this.config.chainId,
         onStatusChange: (status) => {
           // Internal status from createFhevmInstance
-          // We can log or handle these if needed
-          console.debug(`[FHEVMClient] Internal status: ${status}`);
+          // Silent - no logging needed in production
         },
       });
 
@@ -349,6 +390,47 @@ export class FHEVMClient {
       signature.startTimestamp,
       signature.durationDays
     );
+
+    return results;
+  }
+
+  /**
+   * Public decryption via HTTP endpoint (no wallet signature required)
+   *
+   * This performs "public decryption" which:
+   * 1. Does NOT require wallet signature
+   * 2. Does NOT require FHE permissions
+   * 3. Returns decrypted values visible to everyone
+   * 4. Uses Relayer HTTP endpoint
+   *
+   * Use this when you want to decrypt values that should be publicly visible
+   * (e.g., auction results, game outcomes, public counters).
+   *
+   * @param handles - Array of ciphertext handles to decrypt
+   * @returns Decrypted values mapped by handle
+   *
+   * @example
+   * ```typescript
+   * const results = await client.publicDecrypt([
+   *   '0x830a61b343d2f3de67ec59cb18961fd086085c1c73ff0000000000aa36a70000',
+   *   '0x98ee526413903d4613feedb9c8fa44fe3f4ed0dd00ff0000000000aa36a70400',
+   * ]);
+   *
+   * console.log(results['0x830a...']); // true
+   * console.log(results['0x98ee...']); // 242n
+   * ```
+   */
+  async publicDecrypt(
+    handles: string[]
+  ): Promise<Record<string, string | bigint | boolean>> {
+    const instance = this.getInstance();
+
+    if (handles.length === 0) {
+      return {};
+    }
+
+    // Call the Relayer SDK's publicDecrypt method
+    const results = await instance.publicDecrypt(handles);
 
     return results;
   }

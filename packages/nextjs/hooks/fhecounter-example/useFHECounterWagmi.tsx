@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDeployedContractInfo } from "../helper";
 import { useWagmiEthers } from "../wagmi/useWagmiEthers";
-import { FhevmInstance } from "fhevm-sdk";
+import { FhevmInstance } from "uni-fhevm-sdk";
 import {
   buildParamsFromAbi,
   getEncryptionMethod,
   useFHEDecrypt,
   useFHEEncryption,
   useInMemoryStorage,
-} from "fhevm-sdk";
+} from "uni-fhevm-sdk";
 import { ethers } from "ethers";
 import type { Contract } from "~~/utils/helper/contract";
 import type { AllowedChainIds } from "~~/utils/helper/networks";
@@ -110,15 +110,6 @@ export const useFHECounterWagmi = (parameters: {
     signatureStorage: fhevmDecryptionSignatureStorage,
     chainId,
     requests,
-  });
-
-  // DEBUG: Log decrypt conditions
-  console.log('[useFHECounterWagmi] Decrypt conditions:', {
-    instance: !!instance,
-    ethersSigner: !!ethersSigner,
-    requests: requests?.length,
-    canDecrypt,
-    countHandle,
   });
 
   useEffect(() => {

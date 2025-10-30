@@ -73,6 +73,7 @@ export {
 // ============================================================================
 
 export * from "./internal/constants";
+export * from "./version";
 
 // Export encryption utilities
 export { buildParamsFromAbi, getEncryptionMethod } from "./core/encryption";

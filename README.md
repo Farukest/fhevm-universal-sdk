@@ -35,7 +35,12 @@ fhevm-react-template/
 │   │   └── README.md           # Complete SDK documentation
 │   │
 │   ├── hardhat/                # Smart contracts & deployment
-│   └── nextjs/                 # React/Next.js example app
+│   │
+│   ├── react/                  # React example (workspace)
+│   ├── vue/                    # Vue example (workspace)
+│   ├── vanilla/                # Vanilla JS example (workspace)
+│   ├── nodejs/                 # Node.js example (workspace)
+│   └── nextjs/                 # Next.js example (workspace)
 │
 ├── BOUNTY_SUBMISSION.md        # 📄 Detailed submission document
 └── README.md                   # This file
@@ -88,6 +93,8 @@ const result = await client.encryptValue(42, 'uint32', config);
 
 ### Option 2: Run the Full Example
 
+This repository includes 5 complete frontend examples, all using the Universal FHEVM SDK:
+
 ```bash
 # Clone the repository
 git clone <repository-url>
@@ -96,20 +103,24 @@ cd fhevm-react-template
 # Initialize submodules
 git submodule update --init --recursive
 
-# Install dependencies
+# Install all packages from root (SDK + all examples)
 pnpm install
 
 # Terminal 1: Start local Hardhat node
 pnpm chain
 
-# Terminal 2: Deploy contracts
+# Terminal 2: Deploy contracts & generate ABI
 pnpm deploy:localhost
 
-# Terminal 3: Start the frontend
-pnpm start
+# Terminal 3: Start your desired frontend template
+pnpm start:react      # React (Vite) - http://localhost:5173
+pnpm start:vue        # Vue 3 - http://localhost:5174
+pnpm start:vanilla    # Vanilla JS - http://localhost:5175
+pnpm start:nodejs     # Node.js server - http://localhost:3000
+pnpm start:nextjs     # Next.js - http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and connect MetaMask.
+All frontends connect to the same local Hardhat node and use the same deployed contracts.
 
 ---
 
@@ -304,11 +315,21 @@ pnpm sdk:watch
 ### Project Scripts
 
 ```bash
+# Blockchain
 pnpm chain              # Start local Hardhat node
 pnpm deploy:localhost   # Deploy contracts to localhost
 pnpm deploy:sepolia     # Deploy to Sepolia testnet
-pnpm start              # Start Next.js frontend
+
+# Frontend Templates (choose one)
+pnpm start:react        # Start React frontend
+pnpm start:vue          # Start Vue frontend
+pnpm start:vanilla      # Start Vanilla JS frontend
+pnpm start:nodejs       # Start Node.js server
+pnpm start:nextjs       # Start Next.js frontend
+
+# SDK Development
 pnpm sdk:build          # Build SDK
+pnpm sdk:watch          # Watch mode (auto-rebuild)
 pnpm sdk:test           # Run SDK tests
 ```
 

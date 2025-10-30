@@ -101,6 +101,27 @@ export interface VanillaFHEVMClient {
   ): Promise<string | bigint | boolean>;
 
   /**
+   * Public decrypt encrypted values (no signature needed)
+   */
+  publicDecrypt(
+    handles: (string | Uint8Array)[]
+  ): Promise<DecryptionResults>;
+
+  /**
+   * Public decrypt a single value
+   */
+  publicDecryptSingle(
+    handle: string | Uint8Array
+  ): Promise<string | bigint | boolean>;
+
+  /**
+   * Public decrypt multiple values from the same contract
+   */
+  publicDecryptBatch(
+    handles: (string | Uint8Array)[]
+  ): Promise<DecryptionResults>;
+
+  /**
    * Dispose of the client and clean up resources
    */
   dispose(): void;
@@ -207,6 +228,24 @@ export async function createFHEVMClient(
         signer,
         decryptConfig
       );
+    },
+
+    async publicDecrypt(
+      handles: (string | Uint8Array)[]
+    ): Promise<DecryptionResults> {
+      return decryptionManager.publicDecrypt(handles);
+    },
+
+    async publicDecryptSingle(
+      handle: string | Uint8Array
+    ): Promise<string | bigint | boolean> {
+      return decryptionManager.publicDecryptSingle(handle);
+    },
+
+    async publicDecryptBatch(
+      handles: (string | Uint8Array)[]
+    ): Promise<DecryptionResults> {
+      return decryptionManager.publicDecryptBatch(handles);
     },
 
     dispose(): void {

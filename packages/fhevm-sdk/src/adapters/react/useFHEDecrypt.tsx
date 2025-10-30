@@ -69,6 +69,16 @@ export interface UseFHEDecryptResult {
   decryptSingle: (handle: string, contractAddress: `0x${string}`) => Promise<string | bigint | boolean>;
 
   /**
+   * Public decrypt handles (no signature needed)
+   */
+  publicDecrypt: (handles: (string | Uint8Array)[]) => Promise<DecryptionResults>;
+
+  /**
+   * Public decrypt a single handle
+   */
+  publicDecryptSingle: (handle: string | Uint8Array) => Promise<string | bigint | boolean>;
+
+  /**
    * Clear current results
    */
   clearResults: () => void;
@@ -319,6 +329,64 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptResult 
   );
 
   /**
+   * Public decrypt (no signature needed)
+   */
+  const publicDecrypt = useCallback(
+    async (handles: (string | Uint8Array)[]): Promise<DecryptionResults> => {
+      if (!managerRef.current) {
+        throw new Error("Cannot decrypt: missing manager");
+      }
+
+      setIsDecrypting(true);
+      setMessage("Public decrypting...");
+      setError(null);
+
+      try {
+        const results = await managerRef.current.publicDecrypt(handles);
+        setMessage("Public decryption completed!");
+        return results;
+      } catch (err) {
+        const error = err as Error;
+        setError(error.message || "Public decryption failed");
+        setMessage("Public decryption failed");
+        throw error;
+      } finally {
+        setIsDecrypting(false);
+      }
+    },
+    []
+  );
+
+  /**
+   * Public decrypt a single handle
+   */
+  const publicDecryptSingle = useCallback(
+    async (handle: string | Uint8Array): Promise<string | bigint | boolean> => {
+      if (!managerRef.current) {
+        throw new Error("Cannot decrypt: missing manager");
+      }
+
+      setIsDecrypting(true);
+      setMessage(`Public decrypting handle...`);
+      setError(null);
+
+      try {
+        const result = await managerRef.current.publicDecryptSingle(handle);
+        setMessage("Public decryption completed!");
+        return result;
+      } catch (err) {
+        const error = err as Error;
+        setError(error.message || "Public decryption failed");
+        setMessage("Public decryption failed");
+        throw error;
+      } finally {
+        setIsDecrypting(false);
+      }
+    },
+    []
+  );
+
+  /**
    * Clear results
    */
   const clearResults = useCallback(() => {
@@ -345,6 +413,8 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptResult 
     decrypt,
     decryptRequests,
     decryptSingle,
+    publicDecrypt,
+    publicDecryptSingle,
     clearResults,
     setMessage,
     setError,

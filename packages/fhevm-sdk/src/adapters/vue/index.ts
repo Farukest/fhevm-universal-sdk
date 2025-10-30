@@ -28,6 +28,7 @@
 export * from "./useFHEVM";
 export * from "./useFHEEncrypt";
 export * from "./useFHEDecrypt";
+export * from "./usePublicDecrypt";
 
 // Re-export core types for convenience
 export type {

@@ -315,6 +315,94 @@ export class DecryptionManager {
   }
 
   /**
+   * Perform public decryption on encrypted handles
+   *
+   * Public decryption uses the HTTP Relayer endpoint to decrypt values
+   * that have been marked as publicly decryptable with FHE.makePubliclyDecryptable().
+   *
+   * Unlike userDecrypt, this method does NOT require:
+   * - Wallet signature (EIP-712)
+   * - User authorization
+   *
+   * It ONLY works on values marked as publicly decryptable in the smart contract.
+   *
+   * @param requests - Array of decryption requests
+   * @returns Map of decrypted values keyed by handle
+   *
+   * @throws {DecryptionError} If public decryption fails
+   *
+   * @example
+   * ```typescript
+   * const manager = new DecryptionManager(instance);
+   *
+   * // Decrypt publicly decryptable values (no signature needed)
+   * const results = await manager.publicDecrypt([
+   *   { handle: '0x...', contractAddress: '0x...' }
+   * ]);
+   * ```
+   */
+  async publicDecrypt(
+    handles: (string | Uint8Array)[]
+  ): Promise<DecryptionResults> {
+    // Validate inputs
+    if (handles.length === 0) {
+      return {};
+    }
+
+    // Perform public decryption (no signature needed)
+    try {
+      const results = await this.instance.publicDecrypt(handles);
+      return results;
+    } catch (error) {
+      throw new DecryptionError(
+        "PUBLIC_DECRYPT_FAILED",
+        "Public decryption operation failed. Make sure the values are marked as publicly decryptable with FHE.makePubliclyDecryptable().",
+        error as Error
+      );
+    }
+  }
+
+  /**
+   * Decrypt a single value publicly
+   *
+   * Convenience method for public decryption of a single encrypted handle.
+   *
+   * @param handle - Encrypted handle
+   * @returns Decrypted value
+   */
+  async publicDecryptSingle(
+    handle: string | Uint8Array
+  ): Promise<DecryptionResult> {
+    const results = await this.publicDecrypt([handle]);
+
+    const handleKey = typeof handle === 'string' ? handle : handle.toString();
+    const value = results[handleKey] || results[handle as any];
+
+    if (value === undefined) {
+      throw new DecryptionError(
+        "PUBLIC_DECRYPT_NOT_FOUND",
+        `Public decryption result not found for handle: ${handleKey}. Make sure the value is marked as publicly decryptable.`
+      );
+    }
+
+    return value;
+  }
+
+  /**
+   * Batch public decrypt multiple values
+   *
+   * Alias for publicDecrypt for consistency with other methods.
+   *
+   * @param handles - Array of encrypted handles
+   * @returns Map of decrypted values
+   */
+  async publicDecryptBatch(
+    handles: (string | Uint8Array)[]
+  ): Promise<DecryptionResults> {
+    return this.publicDecrypt(handles);
+  }
+
+  /**
    * Validate decryption requests
    */
   private validateRequests(requests: DecryptionRequest[]): void {

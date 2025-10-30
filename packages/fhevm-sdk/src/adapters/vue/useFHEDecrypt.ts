@@ -3,7 +3,7 @@
  * @module @fhevm-sdk/vue
  */
 
-import { ref, computed, watch, type Ref } from "vue";
+import { ref, computed, watch, toRaw, type Ref } from "vue";
 import type { FhevmInstance } from "../../fhevmTypes";
 import type { JsonRpcSigner } from "ethers";
 import { DecryptionManager, type DecryptionRequest, type DecryptionResults, type DecryptionConfig } from "../../core/decryption";
@@ -59,6 +59,12 @@ export interface UseFHEDecryptComposable {
 
   /** Decrypt a single value */
   decryptSingle: (handle: string, contractAddress: `0x${string}`) => Promise<string | bigint | boolean>;
+
+  /** Public decrypt handles (no signature needed) */
+  publicDecrypt: (handles: (string | Uint8Array)[]) => Promise<DecryptionResults>;
+
+  /** Public decrypt a single handle */
+  publicDecryptSingle: (handle: string | Uint8Array) => Promise<string | bigint | boolean>;
 
   /** Clear current results */
   clearResults: () => void;
@@ -127,7 +133,9 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
     () => instance.value,
     (newInstance) => {
       if (newInstance) {
-        manager.value = new DecryptionManager(newInstance);
+        // Unwrap Vue Proxy for instance to avoid issues with private class members
+        const rawInstance = toRaw(newInstance);
+        manager.value = new DecryptionManager(rawInstance);
       } else {
         manager.value = undefined;
       }
@@ -157,12 +165,14 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
       return;
     }
 
-    if (!manager.value || !signer.value || !requests?.value || requests.value.length === 0) {
-      console.warn("Cannot decrypt: missing manager, signer, or requests");
+    if (!instance.value || !signer.value || !requests?.value || requests.value.length === 0) {
+      console.warn("Cannot decrypt: missing instance, signer, or requests");
       return;
     }
 
-    const thisSigner = signer.value;
+    // ALWAYS create fresh manager with unwrapped instance and signer
+    const rawInstance = toRaw(instance.value);
+    const rawSigner = toRaw(signer.value);
     const thisChainId = chainId?.value;
 
     isDecrypting.value = true;
@@ -172,7 +182,7 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
     try {
       // Check if stale
       const isStale = () =>
-        thisSigner !== signer.value || thisChainId !== chainId?.value;
+        rawSigner !== toRaw(signer.value) || thisChainId !== chainId?.value;
 
       if (isStale()) {
         message.value = "Request stale, skipping";
@@ -181,9 +191,10 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
 
       message.value = "Creating decryption signature...";
 
-      const decryptionResults = await manager.value.decrypt(
+      const freshManager = new DecryptionManager(rawInstance);
+      const decryptionResults = await freshManager.decrypt(
         requests.value.map(r => ({ handle: r.handle, contractAddress: r.contractAddress })),
-        thisSigner,
+        rawSigner,
         { signatureStorage }
       );
 
@@ -211,8 +222,8 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
     customRequests: DecryptionRequest[],
     decryptConfig?: DecryptionConfig
   ): Promise<DecryptionResults> => {
-    if (!manager.value || !signer.value) {
-      throw new Error("Cannot decrypt: missing manager or signer");
+    if (!instance.value || !signer.value) {
+      throw new Error("Cannot decrypt: missing instance or signer");
     }
 
     isDecrypting.value = true;
@@ -220,9 +231,14 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
     error.value = null;
 
     try {
-      const decryptResults = await manager.value.decrypt(
+      // ALWAYS create fresh manager with unwrapped instance and signer
+      const rawInstance = toRaw(instance.value);
+      const rawSigner = toRaw(signer.value);
+      const freshManager = new DecryptionManager(rawInstance);
+
+      const decryptResults = await freshManager.decrypt(
         customRequests,
-        signer.value,
+        rawSigner,
         {
           signatureStorage,
           ...decryptConfig,
@@ -248,8 +264,8 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
     handle: string,
     contractAddress: `0x${string}`
   ): Promise<string | bigint | boolean> => {
-    if (!manager.value || !signer.value) {
-      throw new Error("Cannot decrypt: missing manager or signer");
+    if (!instance.value || !signer.value) {
+      throw new Error("Cannot decrypt: missing instance or signer");
     }
 
     isDecrypting.value = true;
@@ -257,10 +273,15 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
     error.value = null;
 
     try {
-      const result = await manager.value.decryptSingle(
+      // ALWAYS create fresh manager with unwrapped instance and signer
+      const rawInstance = toRaw(instance.value);
+      const rawSigner = toRaw(signer.value);
+      const freshManager = new DecryptionManager(rawInstance);
+
+      const result = await freshManager.decryptSingle(
         handle,
         contractAddress,
-        signer.value,
+        rawSigner,
         { signatureStorage }
       );
 
@@ -270,6 +291,66 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
       const errorObj = err as Error;
       error.value = errorObj.message || "Single decryption failed";
       message.value = "Single decryption failed";
+      throw errorObj;
+    } finally {
+      isDecrypting.value = false;
+    }
+  };
+
+  /**
+   * Public decrypt (no signature needed)
+   */
+  const publicDecrypt = async (handles: (string | Uint8Array)[]): Promise<DecryptionResults> => {
+    if (!instance.value) {
+      throw new Error("Cannot decrypt: missing instance");
+    }
+
+    // Unwrap Vue Proxy
+    const rawInstance = toRaw(instance.value);
+
+    isDecrypting.value = true;
+    message.value = "Public decrypting...";
+    error.value = null;
+
+    try {
+      const freshManager = new DecryptionManager(rawInstance);
+      const result = await freshManager.publicDecrypt(handles);
+      message.value = "Public decryption completed!";
+      return result;
+    } catch (err) {
+      const errorObj = err as Error;
+      error.value = errorObj.message || "Public decryption failed";
+      message.value = "Public decryption failed";
+      throw errorObj;
+    } finally {
+      isDecrypting.value = false;
+    }
+  };
+
+  /**
+   * Public decrypt a single handle
+   */
+  const publicDecryptSingle = async (handle: string | Uint8Array): Promise<string | bigint | boolean> => {
+    if (!instance.value) {
+      throw new Error("Cannot decrypt: missing instance");
+    }
+
+    // Unwrap Vue Proxy
+    const rawInstance = toRaw(instance.value);
+
+    isDecrypting.value = true;
+    message.value = `Public decrypting handle...`;
+    error.value = null;
+
+    try {
+      const freshManager = new DecryptionManager(rawInstance);
+      const result = await freshManager.publicDecryptSingle(handle);
+      message.value = "Public decryption completed!";
+      return result;
+    } catch (err) {
+      const errorObj = err as Error;
+      error.value = errorObj.message || "Public decryption failed";
+      message.value = "Public decryption failed";
       throw errorObj;
     } finally {
       isDecrypting.value = false;
@@ -307,6 +388,8 @@ export function useFHEDecrypt(config: UseFHEDecryptConfig): UseFHEDecryptComposa
     decrypt,
     decryptRequests,
     decryptSingle,
+    publicDecrypt,
+    publicDecryptSingle,
     clearResults,
   };
 }
