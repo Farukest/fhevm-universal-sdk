@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-fhevm-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "vite build",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "uni-fhevm-sdk": "^0.2.4",
+    "ethers": "^6.13.7",
+    "@fhevm/mock-utils": "^0.1.0",
+    "@zama-fhe/relayer-sdk": "^0.2.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}
