@@ -153,7 +153,7 @@ pnpm start:nextjs     # Next.js - http://localhost:3000
 
 ---
 
-## ✨ Key Features
+## 💎 Key Features
 
 ### Framework-Agnostic Core
 
@@ -181,7 +181,7 @@ The SDK is built with a 100% framework-independent core:
 
 ---
 
-## 🏗️ Architecture
+## 🏛️ Architecture
 
 ### Core Design
 
@@ -209,7 +209,7 @@ Zama FHEVM Infrastructure (Relayer SDK, Mock Utils)
 
 ---
 
-## 🛠️ Development
+## 🔨 Development
 
 ### Build the SDK
 
@@ -247,7 +247,7 @@ pnpm sdk:test           # Run SDK tests
 
 ---
 
-## 📄 License
+## ⚖️ License
 
 This project is licensed under the **BSD-3-Clause-Clear License**. See [LICENSE](./LICENSE) for details.
 
