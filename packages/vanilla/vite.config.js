@@ -8,4 +8,7 @@ export default defineConfig({
     port: 3003,
     host: true,
   },
+  preview: {
+    allowedHosts: ['localhost', '127.0.0.1', 'vanilla.unifhevm.xyz']
+  }
 });
