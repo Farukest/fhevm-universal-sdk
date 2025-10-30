@@ -46,11 +46,11 @@ import { createFHEVMClient } from 'uni-fhevm-sdk/vanilla';
 const client = await createFHEVMClient({ provider: window.ethereum });
 ```
 
-### 🎁 Single Package, Zero Config
+### 📦 Single Package, Zero Config
 
 No need to manage `@zama-fhe/relayer-sdk`, `@fhevm/mock-utils`, or other scattered dependencies. Everything is bundled.
 
-### 🎨 Wagmi-Like API
+### 🧩 Wagmi-Like API
 
 Familiar patterns for web3 developers:
 
@@ -65,7 +65,7 @@ const { encrypt, encryptUint32, canEncrypt } = useFHEEncrypt({ instance, signer,
 const { decrypt, results, isDecrypting } = useFHEDecrypt({ instance, signer, requests });
 ```
 
-### 🌍 Framework Agnostic
+### 🌐 Framework Agnostic
 
 Works everywhere:
 - **React** - Wagmi-style hooks

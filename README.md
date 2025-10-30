@@ -40,7 +40,7 @@ fhevm-react-template/
 
 ---
 
-## 🎯 Wagmi-Like API
+## 🧩 Wagmi-Like API
 
 Inspired by wagmi, this SDK provides familiar patterns for web3 developers:
 
