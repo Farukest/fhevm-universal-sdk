@@ -186,8 +186,6 @@ function useWallet() {
 }
 ```
 
-**See full implementation with Vue, Vanilla JS, and advanced features in [SDK Documentation](./packages/fhevm-sdk/README.md#-wallet-integration)**
-
 ---
 
 ## 💎 Key Features
