@@ -63,12 +63,12 @@ Single package with zero config - no need to manage `@zama-fhe/relayer-sdk`, `@f
 ### Option 1: Use the SDK in Your Project
 
 ```bash
-npm install fhevm-sdk ethers
+npm install uni-fhevm-sdk ethers
 ```
 
 **React (Hooks):**
 ```tsx
-import { useFHEVM, useFHEEncrypt, useFHEDecrypt } from 'fhevm-sdk/react';
+import { useFHEVM, useFHEEncrypt, useFHEDecrypt } from 'uni-fhevm-sdk/react';
 
 // Initialize
 const { instance, isReady } = useFHEVM({ provider: window.ethereum });
@@ -89,7 +89,7 @@ const value = await publicDecryptSingle(handle);
 **Vue (Composables):**
 ```vue
 <script setup>
-import { useFHEVM, useFHEEncrypt, useFHEDecrypt } from 'fhevm-sdk/vue';
+import { useFHEVM, useFHEEncrypt, useFHEDecrypt } from 'uni-fhevm-sdk/vue';
 
 // Initialize
 const { instance, isReady } = useFHEVM({ provider: window.ethereum });
@@ -110,7 +110,7 @@ const value = await publicDecryptSingle(handle);
 
 **Vanilla JS / Node.js / Next.js:**
 ```typescript
-import { createFHEVMClient } from 'fhevm-sdk/vanilla';
+import { createFHEVMClient } from 'uni-fhevm-sdk/vanilla';
 
 // Initialize
 const client = await createFHEVMClient({ provider: window.ethereum });
