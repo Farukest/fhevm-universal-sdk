@@ -196,6 +196,9 @@ body {
     font-size: 1.875rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .app-header p {

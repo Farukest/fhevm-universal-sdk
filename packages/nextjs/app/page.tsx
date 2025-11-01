@@ -38,7 +38,7 @@ const CONTRACT_ABI = [
 // Contract addresses by network
 const CONTRACT_ADDRESSES: Record<number, string> = {
   31337: '0x5FbDB2315678afecb367f032d93F642f64180aa3',      // Hardhat Local
-  11155111: '0xaAE2668bdDCD244F62cCF1383b92bC7bfcEBB87C',  // Sepolia Testnet
+  11155111: '0xeB740c0c6Ad357Dc017e62bd479A12Aa7aA5A66F',  // Sepolia Testnet
 };
 
 // FHEVM-supported networks
@@ -136,19 +136,23 @@ function App() {
   // Initialize FHEVM
   const initializeFHEVM = async (currentChainId: number) => {
     try {
+      console.log('[PAGE] initializeFHEVM called with chainId:', currentChainId);
       setFhevmStatus('initializing');
 
       const { createFHEVMClient } = await import('uni-fhevm-sdk/vanilla');
+      console.log('[PAGE] SDK imported, createFHEVMClient:', createFHEVMClient);
 
       if (!createFHEVMClient) {
         throw new Error('SDK functions not found. Check if uni-fhevm-sdk is properly installed.');
       }
 
       // Create FHEVM client with provider and chainId
+      console.log('[PAGE] Creating FHEVM client...');
       const client = await createFHEVMClient({
         provider: window.ethereum,
         chainId: currentChainId,
       });
+      console.log('[PAGE] FHEVM client created:', client);
 
       setFhevmClient(client);
       setFhevmInstance(client.getInstance());
@@ -446,7 +450,19 @@ function App() {
       <div className="app-container">
         {/* Header */}
         <div className="app-header">
-          <h1>FHE Counter Demo (NextJS)</h1>
+          <h1>
+            <svg width="24" height="24" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', verticalAlign: 'middle'}}>
+              <mask id="mask-nextjs" x="0" y="0" width="180" height="180">
+                <rect fill="white" width="180" height="180" rx="90" />
+              </mask>
+              <g mask="url(#mask-nextjs)">
+                <rect fill="black" width="180" height="180" />
+                <path fill="white" d="M48 48h84v84H48z" />
+                <circle fill="black" cx="90" cy="90" r="20" />
+              </g>
+            </svg>
+            FHE Counter SDK Test (Next.js)
+          </h1>
           <p>Interact with the Fully Homomorphic Encryption Counter contract</p>
         </div>
 
