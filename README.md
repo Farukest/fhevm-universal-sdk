@@ -2,6 +2,7 @@
 
 A **framework-agnostic SDK** for building confidential dApps with Fully Homomorphic Encryption (FHE). Works with React, Vue, Vanilla JS, Node.js, and Next.js.
 
+[![NPM Package](https://img.shields.io/npm/v/uni-fhevm-sdk?color=blue&label=npm)](https://www.npmjs.com/package/uni-fhevm-sdk)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/License-BSD--3--Clause-green)](./LICENSE)
 
@@ -55,6 +56,23 @@ const { decrypt, results, isDecrypting } = useFHEDecrypt({ instance, signer, req
 ```
 
 Single package with zero config - no need to manage `@zama-fhe/relayer-sdk`, `@fhevm/mock-utils`, or other dependencies. Everything is bundled and ready to use.
+
+---
+
+## 📦 Package Exports
+
+The SDK uses `package.json` "exports" for subpath imports:
+
+| Import Path | Points To | Purpose |
+|-------------|-----------|---------|
+| `uni-fhevm-sdk` | `src/index.ts` | Core types and utilities |
+| `uni-fhevm-sdk/react` | `src/adapters/react/` | React hooks |
+| `uni-fhevm-sdk/vue` | `src/adapters/vue/` | Vue composables |
+| `uni-fhevm-sdk/vanilla` | `src/adapters/vanilla/` | Promise-based API |
+| `uni-fhevm-sdk/core` | `src/core/client.ts` | Core client (advanced) |
+| `uni-fhevm-sdk/storage` | `src/storage/` | Storage utilities |
+
+This allows precise imports and better tree shaking.
 
 ---
 
