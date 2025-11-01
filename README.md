@@ -8,6 +8,42 @@ A **framework-agnostic SDK** for building confidential dApps with Fully Homomorp
 
 ---
 
+## 🌐 Live Demo Sites
+
+Experience the SDK across different frameworks:
+
+<table>
+  <tr>
+    <td align="center" width="120">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="48" height="48" alt="Next.js"/><br/>
+      <strong>Next.js</strong><br/>
+      <a href="https://nextjs.unifhevm.xyz">nextjs.unifhevm.xyz</a>
+    </td>
+    <td align="center" width="120">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="48" height="48" alt="React"/><br/>
+      <strong>React</strong><br/>
+      <a href="https://react.unifhevm.xyz">react.unifhevm.xyz</a>
+    </td>
+    <td align="center" width="120">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" width="48" height="48" alt="Vue"/><br/>
+      <strong>Vue</strong><br/>
+      <a href="https://vue.unifhevm.xyz">vue.unifhevm.xyz</a>
+    </td>
+    <td align="center" width="120">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="48" height="48" alt="Vanilla JS"/><br/>
+      <strong>Vanilla JS</strong><br/>
+      <a href="https://vanilla.unifhevm.xyz">vanilla.unifhevm.xyz</a>
+    </td>
+    <td align="center" width="120">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="48" height="48" alt="Node.js"/><br/>
+      <strong>Node.js</strong><br/>
+      <a href="https://nodejs.unifhevm.xyz">nodejs.unifhevm.xyz</a>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 📚 Documentation
 
 **[📖 Complete SDK Documentation →](./packages/fhevm-sdk/README.md)**
