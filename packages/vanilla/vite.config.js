@@ -5,7 +5,7 @@ export default defineConfig({
     global: 'globalThis',
   },
   server: {
-    port: 3005,
+    port: 3004,
     host: true,
     allowedHosts: ['localhost', '127.0.0.1', 'vanilla.unifhevm.xyz']
   },

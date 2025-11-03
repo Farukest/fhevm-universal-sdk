@@ -8,7 +8,7 @@ export default defineConfig({
     global: 'globalThis',
   },
   server: {
-    port: 3004,
+    port: 3002,
     host: true,
     allowedHosts: ['localhost', '127.0.0.1', 'react.unifhevm.xyz']
   },

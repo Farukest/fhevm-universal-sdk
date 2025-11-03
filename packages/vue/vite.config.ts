@@ -8,7 +8,7 @@ export default defineConfig({
     global: 'globalThis',
   },
   server: {
-    port: 3006,
+    port: 3003,
     host: true,
     allowedHosts: ['localhost', '127.0.0.1', 'vue.unifhevm.xyz']
   },
