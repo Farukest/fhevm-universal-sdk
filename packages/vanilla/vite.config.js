@@ -7,6 +7,7 @@ export default defineConfig({
   server: {
     port: 3005,
     host: true,
+    allowedHosts: ['localhost', '127.0.0.1', 'vanilla.unifhevm.xyz']
   },
   preview: {
     allowedHosts: ['localhost', '127.0.0.1', 'vanilla.unifhevm.xyz']
