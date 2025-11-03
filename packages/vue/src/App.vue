@@ -483,7 +483,13 @@ onMounted(async () => {
     <div v-else class="space-y-6">
       <!-- Header -->
       <div class="text-center mb-8 text-black">
-        <h1 class="text-3xl font-bold mb-2">FHE Counter Demo (Vue)</h1>
+        <h1 class="text-3xl font-bold mb-2 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 261.76 226.69" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+            <path d="M161.096.001l-30.224 52.35L100.647.002H-.005L130.872 226.69 261.749 0z" fill="#41b883"/>
+            <path d="M161.096.001l-30.224 52.35L100.647.002H52.346l78.526 136.01L209.398.001z" fill="#34495e"/>
+          </svg>
+          FHE Counter SDK Test (Vue)
+        </h1>
         <p class="text-gray-600">Interact with the Fully Homomorphic Encryption Counter contract</p>
       </div>
 

@@ -5,7 +5,7 @@ export default defineConfig({
     global: 'globalThis',
   },
   server: {
-    port: 3003,
+    port: 3005,
     host: true,
   },
   preview: {
