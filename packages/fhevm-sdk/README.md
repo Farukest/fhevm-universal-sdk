@@ -2,8 +2,6 @@
 
 **Framework-agnostic toolkit for building confidential dApps with Fully Homomorphic Encryption**
 
-Built for the [Zama Bounty Program - October 2025](https://www.zama.ai/post/developer-program-bounty-track-october-2025-build-an-universal-fhevm-sdk)
-
 [![npm version](https://img.shields.io/npm/v/uni-fhevm-sdk)](https://www.npmjs.com/package/uni-fhevm-sdk)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/License-BSD--3--Clause-green)](./LICENSE)
